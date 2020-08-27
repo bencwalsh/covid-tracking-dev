@@ -1,1 +1,5 @@
-# covid-tracking-dev
+# COVID-19 Tracking 
+
+## Requirements
+
+* Python 3
