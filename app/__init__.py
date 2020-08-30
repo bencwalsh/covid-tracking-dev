@@ -1,5 +1,5 @@
 from flask import Flask
-
+from apidata import get_api_status
 
 def create_app(test_config=None):
     # create and configure the app
@@ -14,6 +14,7 @@ def create_app(test_config=None):
 
     @app.route('/')
     def hello():
-        return 'Hello, World!'
+        x = 5
+        get_api_status()
 
     return app
