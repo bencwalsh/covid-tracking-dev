@@ -1,19 +1,31 @@
-from flask import Flask, render_template
+from flask import Flask
+from flask_assets import Environment
+
+from .blueprints import index
+from .util import bundles
 
 
 def create_app(test_config=None):
-    # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 
-    if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        # load the test config if passed in
-        app.config.from_mapping(test_config)
-
-    @app.route('/')
-    def hello():
-        return render_template('index.html')
+    _load_config(app, test_config)
+    _load_blueprints(app)
+    _load_assets(app)
 
     return app
+
+
+def _load_config(app, test_config):
+    if test_config is None:
+        app.config.from_pyfile('config.py', silent=True)
+    else:
+        app.config.from_mapping(test_config)
+
+
+def _load_blueprints(app):
+    app.register_blueprint(index)
+
+
+def _load_assets(app):
+    assets = Environment(app)
+    assets.register(bundles)
